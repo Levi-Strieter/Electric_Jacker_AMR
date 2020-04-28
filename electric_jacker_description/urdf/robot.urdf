@@ -153,7 +153,7 @@
 
     <link name="right_fork_caster_link">
         <visual>
-            <origin rpy="1.57079632679 0 0" xyz="0 0.02 0"/>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
             <geometry>
                 <sphere radius="0.025"/>
             </geometry>
@@ -161,8 +161,8 @@
         <collision>
             <geometry>
                 <sphere radius="0.025"/>
-                </geometry>
-            <origin rpy="1.57079632679 0 0" xyz="0 0.02 0"/>
+            </geometry>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
         </collision>
         <inertial>
             <mass value="0.5"/>
@@ -174,8 +174,34 @@
     <joint name="right_fork_caster_joint" type="fixed">
         <parent link="right_fork_link"/>
         <child link="right_fork_caster_link"/>
-        <origin rpy="-1.57079632679 0 0" xyz="0.115 0.0 0.007"/>
+        <origin rpy="-1.57079632679 0 0" xyz="0.0762 1 0"/>
     </joint>
 
+
+    <link name="left_fork_caster_link">
+        <visual>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+            <geometry>
+                <sphere radius="0.025"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="0.025"/>
+            </geometry>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+        </collision>
+        <inertial>
+            <mass value="0.5"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
+    </link>
+
+    <joint name="left_fork_caster_joint" type="fixed">
+        <parent link="left_fork_link"/>
+        <child link="left_fork_caster_link"/>
+        <origin rpy="-1.57079632679 0 0" xyz="0.0762 1 0"/>
+    </joint>
 
 </robot>
