@@ -1,29 +1,28 @@
 <?xml version="1.0"?>
 
- 
-
-
 <robot name="electric_jacker">
 	<!-- * * * Link Definitions * * * -->
     <link name="base_link">
-        <!-- <inertial>
-            <mass value="22"/>
-            <origin xyz="0 0 0"/>
-            <inertia ixx="0.0282916666667" ixy="0" ixz="0" iyy="0.0282916666667" iyz="0" izz="0.05625"/>
-        </inertial> -->
         <visual>
             <origin rpy="0.0 0 0" xyz="0 0 0"/>
             <geometry>
                 <mesh filename="package://electric_jacker_description/models/meshes/Base_Link.stl"/>
             </geometry>
-            <material name="grey"/>
         </visual>
+         <inertial>
+            <mass value="22"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.236558666667" ixy="0" ixz="0" iyy="0.980535673333" iyz="0" izz="0.980535673333"/>
+        </inertial>
         <collision>
-        <origin rpy="0 0 0 " xyz="0 0 0"/>
             <geometry>
                 <mesh filename="package://electric_jacker_description/models/meshes/Base_Link.stl"/>
             </geometry>
         </collision>
+        <gazebo reference="base_link">
+            <material>Gazebo/Grey</material>
+            <turnGravityOff>true</turnGravityOff>
+        </gazebo>
 	</link>
 
     <joint name="left_fork_joint" type="fixed">
@@ -33,6 +32,11 @@
     </joint>
 
     <link name="left_fork_link">
+        <inertial>
+            <mass value="22"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.236558666667" ixy="0" ixz="0" iyy="0.980535673333" iyz="0" izz="0.980535673333"/>
+        </inertial>
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
@@ -40,11 +44,14 @@
             </geometry>
         </visual>
         <collision>
-        <origin rpy="0 0 0 " xyz="0 0 0"/>
             <geometry>
                 <mesh filename="package://electric_jacker_description/models/meshes/Fork_Link.stl"/>
             </geometry>
         </collision>
+        <gazebo reference="left_fork_link">
+            <material>Gazebo/Grey</material>
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
 	</link>
 
 
@@ -63,11 +70,14 @@
             </geometry>
         </visual>
         <collision>
-        <origin rpy="0 0 0 " xyz="0 0 0"/>
             <geometry>
                 <mesh filename="package://electric_jacker_description/models/meshes/Fork_Link.stl"/>
             </geometry>
         </collision>
+        <gazebo reference="right_fork_link">
+            <material>Gazebo/Grey</material>
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
 	</link>
 
     <link name="right_wheel_link">
@@ -78,7 +88,6 @@
             </geometry>
         </visual>
         <collision>
-            <origin rpy="1.57079632679 0 -1.57079632679 " xyz="0 0 0"/>
             <geometry>
                 <cylinder length="0.0508" radius="0.0889"/>
             </geometry>
@@ -88,6 +97,15 @@
             <origin xyz="0 0 0"/>
             <inertia ixx="0.00108333333333" ixy="0" ixz="0" iyy="0.00108333333333" iyz="0" izz="0.002"/>
         </inertial>
+        <gazebo reference="right_wheel_link">
+            <mu1 value="1.0"/>
+            <mu2 value="1.0"/>
+            <kp value="10000.0"/>
+            <kd value="1000.0"/>
+            <fdir1 value="1 0 0"/>
+            <material>Gazebo/Red</material>
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
   </link>
 
    <joint name="right_wheel_joint" type="continuous">
@@ -118,7 +136,6 @@
             </geometry>
         </visual>
         <collision>
-            <origin rpy="-1.57079632679 0 1.57079632679 " xyz="0 0 0"/>
             <geometry>
                 <cylinder length="0.0508" radius="0.0889"/>
             </geometry>
@@ -128,6 +145,15 @@
             <origin xyz="0 0 0"/>
             <inertia ixx="0.00108333333333" ixy="0" ixz="0" iyy="0.00108333333333" iyz="0" izz="0.002"/>
         </inertial>
+        <gazebo reference="left_wheel_link">
+            <mu1 value="1.0"/>
+            <mu2 value="1.0"/>
+            <kp value="10000.0"/>
+            <kd value="1000.0"/>
+            <fdir1 value="1 0 0"/>
+            <material>Gazebo/Red</material>
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
   </link>
 
    <joint name="left_wheel_joint" type="continuous">
@@ -162,13 +188,15 @@
             <geometry>
                 <sphere radius="0.025"/>
             </geometry>
-            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
         </collision>
         <inertial>
             <mass value="0.5"/>
             <origin xyz="0 0 0"/>
             <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
         </inertial>
+        <gazebo reference="right_fork_caster_link">
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
     </link>
 
     <joint name="right_fork_caster_joint" type="fixed">
@@ -189,13 +217,15 @@
             <geometry>
                 <sphere radius="0.025"/>
             </geometry>
-            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
         </collision>
         <inertial>
             <mass value="0.5"/>
             <origin xyz="0 0 0"/>
             <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
         </inertial>
+        <gazebo reference="left_fork_caster_link">
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
     </link>
 
     <joint name="left_fork_caster_joint" type="fixed">
@@ -203,5 +233,31 @@
         <child link="left_fork_caster_link"/>
         <origin rpy="-1.57079632679 0 0" xyz="0.0762 1 0"/>
     </joint>
+
+
+
+    <gazebo>
+        <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+            <rosDebugLevel>Debug</rosDebugLevel>
+            <updateRate>100.0</updateRate>
+            <legacyMode>false</legacyMode>
+            <alwaysOn>true</alwaysOn>
+            <publishWheelTF>true</publishWheelTF>
+            <publishTf>1</publishTf>
+            <publishWheelJointState>true</publishWheelJointState>
+            <updateRate>100.0</updateRate>
+            <leftJoint>left_wheel_joint</leftJoint>
+            <rightJoint>right_wheel_joint</rightJoint>
+            <wheelSeparation>0.635</wheelSeparation>
+            <wheelDiameter>0.1778</wheelDiameter>
+            <wheelAcceleration>1.0</wheelAcceleration>
+            <torque>30</torque>
+            <commandTopic>/cmd_vel</commandTopic>
+            <odometryTopic>odom</odometryTopic>
+            <odometryFrame>odom</odometryFrame>
+            <robotBaseFrame>base_link</robotBaseFrame>
+        </plugin>
+    </gazebo>
+
 
 </robot>

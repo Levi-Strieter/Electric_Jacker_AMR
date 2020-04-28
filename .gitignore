@@ -60,4 +60,4 @@ build-*/
 *.gch
 
 # VSCode 
-.vscode
+.vscode/
