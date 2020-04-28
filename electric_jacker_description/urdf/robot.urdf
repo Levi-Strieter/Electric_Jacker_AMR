@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+
+ 
+
+
+<robot name="electric_jacker">
+	<!-- * * * Link Definitions * * * -->
+    <link name="base_link">
+        <!-- <inertial>
+            <mass value="22"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.0282916666667" ixy="0" ixz="0" iyy="0.0282916666667" iyz="0" izz="0.05625"/>
+        </inertial> -->
+        <visual>
+            <origin rpy="0.0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://electric_jacker_description/models/meshes/Base_Link.stl"/>
+            </geometry>
+            <material name="grey"/>
+        </visual>
+        <collision>
+        <origin rpy="0 0 0 " xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://electric_jacker_description/models/meshes/Base_Link.stl"/>
+            </geometry>
+        </collision>
+	</link>
+
+    <joint name="left_fork_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="left_fork_link"/>
+        <origin xyz=".19 .12 0" rpy="0 0 0" />
+    </joint>
+
+    <link name="left_fork_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://electric_jacker_description/models/meshes/Fork_Link.stl"/>
+            </geometry>
+        </visual>
+        <collision>
+        <origin rpy="0 0 0 " xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://electric_jacker_description/models/meshes/Fork_Link.stl"/>
+            </geometry>
+        </collision>
+	</link>
+
+
+    <joint name="right_fork_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="right_fork_link"/>
+        <origin xyz="-.34 .12 0" rpy="0 0 0" />
+    </joint>
+
+
+    <link name="right_fork_link">
+        <visual>
+            <origin rpy="0.0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://electric_jacker_description/models/meshes/Fork_Link.stl"/>
+            </geometry>
+        </visual>
+        <collision>
+        <origin rpy="0 0 0 " xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://electric_jacker_description/models/meshes/Fork_Link.stl"/>
+            </geometry>
+        </collision>
+	</link>
+
+    <link name="right_wheel_link">
+        <visual>
+            <origin rpy="1.57079632679 0  -1.57079632679 " xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.0508" radius="0.0889"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="1.57079632679 0 -1.57079632679 " xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.0508" radius="0.0889"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="2.5"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.00108333333333" ixy="0" ixz="0" iyy="0.00108333333333" iyz="0" izz="0.002"/>
+        </inertial>
+  </link>
+
+   <joint name="right_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="right_wheel_link"/>
+        <parent link="base_link"/>
+        <child link="right_wheel_link"/>
+        <origin rpy="0 0 0" xyz="0.27 0 0.065"/>
+        <axis rpy="0  0" xyz="-1 0 0"/>
+        <limit effort="100" velocity="100"/>
+        <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+  <!-- Transmission is important to link the joints and the controller -->
+    <transmission name="right_wheel_joint_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="right_wheel_joint"/>
+        <actuator name="right_wheel_joint_motor">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+  </transmission>
+
+    <link name="left_wheel_link">
+        <visual>
+            <origin rpy="-1.57079632679 0  1.57079632679 " xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.0508" radius="0.0889"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="-1.57079632679 0 1.57079632679 " xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.0508" radius="0.0889"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="2.5"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.00108333333333" ixy="0" ixz="0" iyy="0.00108333333333" iyz="0" izz="0.002"/>
+        </inertial>
+  </link>
+
+   <joint name="left_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="left_wheel_link"/>
+        <parent link="base_link"/>
+        <child link="left_wheel_link"/>
+        <origin rpy="0 0 0" xyz="-0.27 0 0.065"/>
+        <axis rpy="0  0" xyz="-1 0 0"/>
+        <limit effort="100" velocity="100"/>
+        <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+  <!-- Transmission is important to link the joints and the controller -->
+    <transmission name="left_wheel_joint_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="left_wheel_joint"/>
+        <actuator name="left_wheel_joint_motor">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+  </transmission>
+
+
+    <link name="right_fork_caster_link">
+        <visual>
+            <origin rpy="1.57079632679 0 0" xyz="0 0.02 0"/>
+            <geometry>
+                <sphere radius="0.025"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="0.025"/>
+                </geometry>
+            <origin rpy="1.57079632679 0 0" xyz="0 0.02 0"/>
+        </collision>
+        <inertial>
+            <mass value="0.5"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
+    </link>
+
+    <joint name="right_fork_caster_joint" type="fixed">
+        <parent link="right_fork_link"/>
+        <child link="right_fork_caster_link"/>
+        <origin rpy="-1.57079632679 0 0" xyz="0.115 0.0 0.007"/>
+    </joint>
+
+
+</robot>
