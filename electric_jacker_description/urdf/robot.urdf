@@ -139,7 +139,7 @@
         <parent link="base_link"/>
         <child link="right_wheel_link"/>
         <origin rpy="0 0 0" xyz="0.27 0 0.09"/>
-        <axis rpy="0  0" xyz="-1 0 0"/>
+        <axis rpy="0  0" xyz="1 0 0"/>
         <limit effort="100" velocity="100"/>
         <joint_properties damping="0.0" friction="0.0"/>
   </joint>
@@ -187,7 +187,7 @@
         <parent link="base_link"/>
         <child link="left_wheel_link"/>
         <origin rpy="0 0 0" xyz="-0.27 0 0.09"/>
-        <axis rpy="0  0" xyz="-1 0 0"/>
+        <axis rpy="0  0" xyz="1 0 0"/>
         <limit effort="100" velocity="100"/>
         <joint_properties damping="0.0" friction="0.0"/>
   </joint>
@@ -267,57 +267,179 @@
     </gazebo>
 
     <gazebo>
-    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+        <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
 
-        <!-- Plugin update rate in Hz -->
-        <updateRate>5</updateRate>
+            <!-- Plugin update rate in Hz -->
+            <updateRate>5</updateRate>
 
-        <!-- Name of left joint, defaults to `left_joint` -->
-        <leftJoint>left_wheel_joint</leftJoint>
+            <!-- Name of left joint, defaults to `left_joint` -->
+            <leftJoint>left_wheel_joint</leftJoint>
 
-        <!-- Name of right joint, defaults to `right_joint` -->
-        <rightJoint>right_wheel_joint</rightJoint>
+            <!-- Name of right joint, defaults to `right_joint` -->
+            <rightJoint>right_wheel_joint</rightJoint>
 
-        <!-- The distance from the center of one wheel to the other, in meters, defaults to 0.34 m -->
-        <wheelSeparation>0.53848</wheelSeparation>
+            <!-- The distance from the center of one wheel to the other, in meters, defaults to 0.34 m -->
+            <wheelSeparation>0.53848</wheelSeparation>
 
-        <!-- Diameter of the wheels, in meters, defaults to 0.15 m -->
-        <wheelDiameter>0.1778</wheelDiameter>
+            <!-- Diameter of the wheels, in meters, defaults to 0.15 m -->
+            <wheelDiameter>0.1778</wheelDiameter>
 
-        <!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
-        <wheelAcceleration>0.0</wheelAcceleration>
+            <!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
+            <wheelAcceleration>0.0</wheelAcceleration>
 
-        <!-- Maximum torque which the wheels can produce, in Nm, defaults to 5 Nm -->
-        <wheelTorque>90</wheelTorque>
+            <!-- Maximum torque which the wheels can produce, in Nm, defaults to 5 Nm -->
+            <wheelTorque>90</wheelTorque>
 
-        <!-- Topic to receive geometry_msgs/Twist message commands, defaults to `cmd_vel` -->
-        <commandTopic>cmd_vel</commandTopic>
+            <!-- Topic to receive geometry_msgs/Twist message commands, defaults to `cmd_vel` -->
+            <commandTopic>cmd_vel</commandTopic>
 
-        <!-- Topic to publish nav_msgs/Odometry messages, defaults to `odom` -->
-        <odometryTopic>odom</odometryTopic>
+            <!-- Topic to publish nav_msgs/Odometry messages, defaults to `odom` -->
+            <odometryTopic>odom</odometryTopic>
 
-        <!-- Odometry frame, defaults to `odom` -->
-        <odometryFrame>odom</odometryFrame>
+            <!-- Odometry frame, defaults to `odom` -->
+            <odometryFrame>odom</odometryFrame>
 
-        <!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
-        <robotBaseFrame>base_footprint</robotBaseFrame>
+            <!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
+            <robotBaseFrame>base_footprint</robotBaseFrame>
 
-        <!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
-        <odometrySource>1</odometrySource>
+            <!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
+            <odometrySource>1</odometrySource>
 
-        <!-- Set to true to publish transforms for the wheel links, defaults to false -->
-        <publishWheelTF>true</publishWheelTF>
+            <!-- Set to true to publish transforms for the wheel links, defaults to false -->
+            <publishWheelTF>true</publishWheelTF>
 
-        <!-- Set to true to publish transforms for the odometry, defaults to true -->
-        <publishOdom>true</publishOdom>
+            <!-- Set to true to publish transforms for the odometry, defaults to true -->
+            <publishOdom>true</publishOdom>
 
-        <!-- Set to true to publish sensor_msgs/JointState on /joint_states for the wheel joints, defaults to false -->
-        <publishWheelJointState>true</publishWheelJointState>
+            <!-- Set to true to publish sensor_msgs/JointState on /joint_states for the wheel joints, defaults to false -->
+            <publishWheelJointState>true</publishWheelJointState>
 
-        <!-- Set to true to swap right and left wheels, defaults to true -->
-        <legacyMode>false</legacyMode>
-    </plugin>
+            <!-- Set to true to swap right and left wheels, defaults to true -->
+            <legacyMode>false</legacyMode>
+        </plugin>
     </gazebo>
+
+
+    <gazebo reference="camera_depth_frame">
+        <sensor name="kinect" type="depth">
+            <always_on>true</always_on>
+            <update_rate>20.0</update_rate>
+            <camera>
+                <horizontal_fov>1.0471975512</horizontal_fov>
+                <image>
+                    <format>R8G8B8</format>
+                    <width>640</width>
+                    <height>480</height>
+                </image>
+                <clip>
+                    <near>0.05</near>
+                    <far>8.0</far>
+                </clip>
+            </camera>
+            <plugin filename="libgazebo_ros_openni_kinect.so" name="camera_depth_frame_kinect_controller">
+                <baseline>0.1</baseline>
+                <alwaysOn>true</alwaysOn>
+                <updateRate>10</updateRate>
+                <cameraName>camera1</cameraName>
+                <imageTopicName>depth/image_raw</imageTopicName>
+                <cameraInfoTopicName>depth/camera_info</cameraInfoTopicName>
+                <depthImageTopicName>depth/image_raw</depthImageTopicName>
+                <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+                <pointCloudTopicName>depth/points</pointCloudTopicName>
+                <frameName>camera_depth_optical_frame</frameName>
+                <pointCloudCutoff>0.3</pointCloudCutoff>
+                <distortion_k1>0.0</distortion_k1>
+                <distortion_k2>0.0</distortion_k2>
+                <distortion_k3>0.0</distortion_k3>
+                <distortion_t1>0.0</distortion_t1>
+                <distortion_t2>0.0</distortion_t2>
+                <!--
+                <CxPrime>0</CxPrime>
+                <Cx>0</Cx>
+                <Cy>0</Cy>
+                <focalLength>0</focalLength>
+                <hackBaseline>0</hackBaseline>
+                -->
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <!-- Parameterised in part by the values in kinect_properties.urdf.xacro -->
+    <joint name="camera_rgb_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0.0 -0.127 0.1778"/>
+        <parent link="base_link"/>
+        <child link="camera_rgb_frame"/>
+    </joint>
+    <link name="camera_rgb_frame">
+        <inertial>
+            <mass value="0.001"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+        </inertial>
+    </link>
+    <joint name="camera_rgb_optical_joint" type="fixed">
+        <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
+        <parent link="camera_rgb_frame"/>
+        <child link="camera_rgb_optical_frame"/>
+    </joint>
+    <link name="camera_rgb_optical_frame">
+        <inertial>
+            <mass value="0.001"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+        </inertial>
+    </link>
+    <joint name="camera_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="-0.031 -0.0 -0.016"/>
+        <parent link="camera_rgb_frame"/>
+        <child link="camera_link"/>
+    </joint>
+    <link name="camera_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://electric_jacker_description/models/meshes/kinect.dae"/>
+            </geometry>
+        </visual>
+            <collision>
+            <origin rpy="0 0 0" xyz="0.0 -0.127 0.1778"/>
+            <geometry>
+                <box size="0.07271 0.27794 0.073"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.001"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+        </inertial>
+    </link>
+    <!-- The fixed joints & links below are usually published by static_transformers launched by the OpenNi launch 
+        files. However, for Gazebo simulation we need them, so we add them here.
+        (Hence, don't publish them additionally!) -->
+    <joint name="camera_depth_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0.0 0"/>
+        <parent link="camera_rgb_frame"/>
+        <child link="camera_depth_frame"/>
+    </joint>
+    <link name="camera_depth_frame">
+        <inertial>
+            <mass value="0.001"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+        </inertial>
+    </link>
+        <joint name="camera_depth_optical_joint" type="fixed">
+        <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
+        <parent link="camera_depth_frame"/>
+        <child link="camera_depth_optical_frame"/>
+    </joint>
+    <link name="camera_depth_optical_frame">
+        <inertial>
+            <mass value="0.001"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+        </inertial>
+    </link>
 
 
 </robot>
