@@ -1,8 +1,5 @@
 <launch>
 
-    <node name="gazebo_ros" pkg="gazebo_ros" type="gazebo" output="screen" />
-
     <node name="teleop" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen" />
-
 
 </launch>

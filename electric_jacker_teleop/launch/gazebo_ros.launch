@@ -1,0 +1,5 @@
+<launch>
+
+    <node name="gazebo_ros" pkg="gazebo_ros" type="gazebo" output="screen" />
+
+</launch>
